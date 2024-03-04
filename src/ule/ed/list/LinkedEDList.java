@@ -58,20 +58,29 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 	@Override
 	public int size() {
-		// TODO 
+		int n=0;
+		Node<T> siguiente=this.front;
+		while (siguiente.next!=null) {
+			n++;
+			siguiente=siguiente.next;
+		}
 		
-		return 0;
+		return n;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO 
-		return false;
+		return front==null;
 	}
 
 	@Override
 	public void addFirst(T elem) {
-		// TODO 
+		Node<T> primero=this.front;
+		Node<T> creado=new Node<T>(elem);
+		creado.next=primero;
+
+		this.front=creado;
+
 	}
 
 	@Override
