@@ -156,7 +156,7 @@ public interface IEDList<T> {
 	 * @return el elemento que era el penultimo de esta lista y se ha eliminado
 	 *
 	 */
-	public T removePenult() throws EmptyCollectionException;;
+	public T removePenult() throws EmptyCollectionException;
 
 	/**
 	 * Elimina la primera aparición del elemento y devuelve la posición en la que estaba.
