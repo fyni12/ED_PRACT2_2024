@@ -221,7 +221,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 		if (elem == null) {
 			throw new NullPointerException("el elemento no puede ser nulo");
 		}
-		int n = this.countElem(T);
+		int n = this.countElem(elem);
 
 		if (n == 0) {
 			throw new NoSuchElementException("el objeto no se encuentra en la coleccion");
