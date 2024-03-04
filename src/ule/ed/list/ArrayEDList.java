@@ -59,12 +59,12 @@ public class ArrayEDList<T> implements IEDList<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private T[] extendList() {
+	private void extendList() {
 		T[] temp = this.data;
 
 		this.data = (T[]) (new Object[temp.length * 2]);
 
-		return temp;
+		this.copy(temp);
 
 	}
 
@@ -72,6 +72,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 		for (int i = 0; i < lista.length; i++) {
 			this.data[i] = lista[i];
 		}
+
 	}
 
 	// ---------------ADDS-----------------------------------
@@ -103,7 +104,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 		System.out.println();
 		if (this.count == this.data.length - 1) {
 
-			this.copy(this.extendList());
+			this.extendList();
 		}
 
 		for (int i = count - 1; i >= position; i--) {
@@ -258,20 +259,29 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	@Override
 	public IEDList<T> listOfRepeatedElems() {
-		// TODO Auto-generated method stub
-		return null;
+		IEDList<T> resultado = new ArrayEDList<T>();
+
+		for (int i = 0; i < this.count; i++) {
+			
+			if(this.countElem(this.getElemPos(i+1))>1 && resultado.countElem(this.getElemPos(i+1))==0){
+				resultado.addLast(this.getElemPos(i+1));
+			}
+
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public int countElem(T elem) {
-		
-		if(elem==null){
+
+		if (elem == null) {
 			throw new NullPointerException("el elemento no puede ser nulo");
 		}
-		
+
 		int n = 0;
 
-		for (int i=0; i<this.count; i++) {
+		for (int i = 0; i < this.count; i++) {
 			if (this.data[i].equals(elem))
 				n++;
 		}
@@ -302,19 +312,5 @@ public class ArrayEDList<T> implements IEDList<T> {
 		return null;
 	}
 
-	public static void main(String[] args) throws EmptyCollectionException {
-		ArrayEDList<Integer> e = new ArrayEDList<Integer>();
-		for (int i = 1; i < 11; i++) {
 
-			e.addLast(i);
-		}
-		e.addLast(1);
-		e.addLast(1);
-		e.addLast(1);
-		e.addLast(1);
-		System.out.println(e.toString());
-		System.out.println(e.countElem(1));
-		System.out.println(e.removeAll(1));
-		System.out.println(e.toString());
-	}
 }
