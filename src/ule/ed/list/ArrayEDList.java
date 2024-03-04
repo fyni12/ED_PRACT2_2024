@@ -211,7 +211,10 @@ public class ArrayEDList<T> implements IEDList<T> {
 		if (elem == null) {
 			throw new NullPointerException("El elemento no puede ser nulo");
 		}
-		System.out.println();
+		if(position<=0){
+			throw new IllegalArgumentException("la poscion no puede ser inferior a 1");
+		}
+		
 		if (this.count == this.data.length - 1) {
 
 			this.extendList();
