@@ -13,24 +13,134 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	private class ArrayEDListIterator<T> implements Iterator<T> {
 		private int current = 0;
+		private T[] items;
+		private int count;
+
+		ArrayEDListIterator(T[] colection, int size) {
+			this.count = size;
+			this.items = colection;
+		}
 
 		@Override
 		public boolean hasNext() {
-			// TODO
-			return false;
+
+			return current < this.count;
 
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public T next() {
-			// TODO
-			return null;
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("No hay siguiente");
+			}
+			current++;
+			return items[current - 1];
 		}
 	}
 
-	/// TODO : AÑADIR OTRAS CLASES PARA LOS OTROS ITERADORES
+	private class ArrayEDListOddIterator<T> implements Iterator<T> {
+		private int current = 0;
+		private T[] items;
+		private int count;
 
+		ArrayEDListOddIterator(T[] colection, int size) {
+			this.count = size;
+			this.items = colection;
+		}
+
+		@Override
+		public boolean hasNext() {
+
+			return this.current < this.count;
+
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public T next() {
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("No hay siguiente");
+			}
+			current += 2;
+			return items[current - 2];
+		}
+
+	}
+
+	private class ArrayEDListEvenIterator<T> implements Iterator<T> {
+		private int current = 1;
+		private T[] items;
+		private int count;
+
+		ArrayEDListEvenIterator(T[] colection, int size) {
+			this.count = size;
+			this.items = colection;
+		}
+
+		@Override
+		public boolean hasNext() {
+
+			return this.current < this.count ;
+
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public T next() {
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("No hay siguiente");
+			}
+
+			current += 2;
+			return items[current - 2];
+		}
+
+	}
+
+	private class ArrayEDOddEvenIterator<T> implements Iterator<T> {
+
+		private int current = 0;
+		private T[] items;
+		private int count;
+
+		private Boolean cambio=false;
+
+		ArrayEDOddEvenIterator(T[] coleccion, int size) {
+			this.count = size;
+			this.items = coleccion;
+		}
+
+		@Override
+		public boolean hasNext() {
+			
+			return this.current < this.count;
+		}
+
+		@Override
+		public T next(){
+
+			
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("No hay siguiente");
+			}
+
+
+
+
+			this.current+=2;
+			T temp=this.items[current-2];
+
+
+			if(!hasNext() && !cambio){
+				cambio=true;
+				this.current=1;
+			}
+
+			return temp;
+		}
+
+	}
 	// FIN ITERADORES
 
 	@SuppressWarnings("unchecked")
@@ -262,9 +372,9 @@ public class ArrayEDList<T> implements IEDList<T> {
 		IEDList<T> resultado = new ArrayEDList<T>();
 
 		for (int i = 0; i < this.count; i++) {
-			
-			if(this.countElem(this.getElemPos(i+1))>1 && resultado.countElem(this.getElemPos(i+1))==0){
-				resultado.addLast(this.getElemPos(i+1));
+
+			if (this.countElem(this.getElemPos(i + 1)) > 1 && resultado.countElem(this.getElemPos(i + 1)) == 0) {
+				resultado.addLast(this.getElemPos(i + 1));
 			}
 
 		}
@@ -290,27 +400,53 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return new ArrayEDListIterator<T>();
+		return new ArrayEDListIterator<T>(this.data, this.size());
 	}
 
 	@Override
 	public Iterator<T> evenPositionsIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayEDListEvenIterator<T>(this.data, this.size());
 	}
 
 	@Override
 	public Iterator<T> oddPositionsIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayEDListOddIterator<T>(this.data, this.size());
 	}
 
 	@Override
 	public Iterator<T> OddEvenIterator() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return new ArrayEDOddEvenIterator<>(this.data, this.size());
 	}
 
+
+
+
+	public static void main(String[] args) {
+		
+		ArrayEDList<Integer> e=new ArrayEDList<Integer>();
+
+
+		for(int i=1; i<=10;i++){
+			e.addLast(i);
+		}
+
+		System.out.println(e);
+		Iterator it= e.OddEvenIterator();
+
+
+		System.out.println(it);
+
+		while (it.hasNext()) {
+			System.out.println(it.next());
+			
+		}
+
+
+
+
+
+
+	}
 
 }
