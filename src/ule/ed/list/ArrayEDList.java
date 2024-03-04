@@ -420,33 +420,4 @@ public class ArrayEDList<T> implements IEDList<T> {
 	}
 
 
-
-
-	public static void main(String[] args) {
-		
-		ArrayEDList<Integer> e=new ArrayEDList<Integer>();
-
-
-		for(int i=1; i<=10;i++){
-			e.addLast(i);
-		}
-
-		System.out.println(e);
-		Iterator it= e.OddEvenIterator();
-
-
-		System.out.println(it);
-
-		while (it.hasNext()) {
-			System.out.println(it.next());
-			
-		}
-
-
-
-
-
-
-	}
-
 }
