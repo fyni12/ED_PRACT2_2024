@@ -133,28 +133,106 @@ public class LinkedEDList<T> implements IEDList<T> {
 	// ---------------REMOVE------------------
 	@Override
 	public T removeFirst() throws EmptyCollectionException {
-		// TODO
+		if (this.isEmpty()) {
+			throw new EmptyCollectionException("La lista esta vacia");
+		}
 
-		return null;
+		T resultado = this.front.elem;
+		this.front = this.front.next;
+		return resultado;
 	}
 
 	@Override
 	public T removelast() throws EmptyCollectionException {
-		// TODO
-		return null;
+		if (this.isEmpty()) {
+			throw new EmptyCollectionException("La lista esta vacia");
+		}
+
+		T resultado;
+
+		if (this.size() == 1) {
+			resultado = this.removeFirst();
+
+		} else {
+			Node<T> nodo = this.front;
+
+			while (nodo.next.next != null) {
+				nodo = nodo.next;
+			}
+			resultado = nodo.next.elem;
+			nodo.next = null;
+		}
+
+		return resultado;
 	}
 
 	@Override
 	public T removePenult() throws EmptyCollectionException {
-		// TODO
-		return null;
+		if (this.isEmpty()) {
+			throw new EmptyCollectionException("La lista esta vacia");
+		} else if (this.size() <= 1) {
+			throw new NoSuchElementException("no hay tantos elementos en la lista");
+		}
+
+		T resultado;
+		Node<T> prenodo = this.front;
+		Node<T> nodo = this.front.next;
+
+		while (nodo.next.next != null) {
+			nodo = nodo.next;
+			prenodo = prenodo.next;
+
+		}
+
+		prenodo.next = nodo.next;
+
+		resultado = nodo.elem;
+
+		return resultado;
+
+	}
+
+	@Override
+	public int removeElem(T elem) throws EmptyCollectionException {
+
+		if (this.isEmpty()) {
+			throw new EmptyCollectionException("La lista esta vacia");
+		}
+
+		if (this.front.elem == elem) {
+			this.removeFirst();
+			return 1;
+		} else {
+			Node<T> prenodo = this.front;
+			Node<T> nodo = this.front.next;
+			int n = 2;
+			while (nodo != null && nodo.elem != elem) {
+				nodo = nodo.next;
+				prenodo = prenodo.next;
+				n++;
+			}
+
+			if (nodo == null) {
+				throw new NoSuchElementException("no esta el elemento en la lista");
+			}
+			prenodo.next = nodo.next;
+			return n;
+		}
 
 	}
 
 	@Override
 	public T getElemPos(int position) {
-		// TODO
-		return null;
+		if (position < 1 || position > this.size()) {
+			throw new IllegalArgumentException("el arg no es valido");
+		}
+		Node<T> nodo = this.front;
+
+		for (int i = 0; i < position - 1; i++) {
+			nodo=nodo.next;
+		}
+
+		return nodo.elem;
 	}
 
 	@Override
@@ -187,12 +265,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 		str.append(")");
 
 		return str.toString();
-	}
-
-	@Override
-	public int removeElem(T elem) throws EmptyCollectionException {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -243,5 +315,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 		return null;
 	}
 
-	
+
+
 }
