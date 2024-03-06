@@ -208,7 +208,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 			this.addPos(elem, 1);
 		} else {
 
-			this.addPos(elem, this.count - 1);
+			this.addPos(elem, this.count);
 		}
 	}
 
@@ -238,7 +238,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	// ---------------------------REMOVE-------------------
 
-	public void condensar(int pos) {
+	private void condensar(int pos) {
 
 		for (int i = pos; i < this.count; i++) {
 			this.data[i] = this.data[i + 1];
