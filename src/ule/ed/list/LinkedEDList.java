@@ -229,10 +229,38 @@ public class LinkedEDList<T> implements IEDList<T> {
 		Node<T> nodo = this.front;
 
 		for (int i = 0; i < position - 1; i++) {
-			nodo=nodo.next;
+			nodo = nodo.next;
 		}
 
 		return nodo.elem;
+	}
+
+	@Override
+	public int getPosFirst(T elem) {
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
+
+		Node<T> nodo = this.front;
+		int n = 1;
+
+		// while (nodo.next != null && nodo.elem != elem) {
+		// 	nodo = nodo.next;
+		// 	n++;
+		// }
+
+		for(int i=1; i<=this.size();i++){
+			if(nodo.elem==elem)
+			{
+				return i;
+			}
+			nodo=nodo.next;
+		}
+
+		
+		throw new NoSuchElementException("el elemento no esta en la lista");
+		
+
 	}
 
 	@Override
@@ -280,12 +308,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 	}
 
 	@Override
-	public int getPosFirst(T elem) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public IEDList<T> listOfRepeatedElems() {
 		// TODO Auto-generated method stub
 		return null;
@@ -315,6 +337,14 @@ public class LinkedEDList<T> implements IEDList<T> {
 		return null;
 	}
 
+	public static void main(String[] args) {
+		LinkedEDList<Integer> lista = new LinkedEDList<Integer>();
+		lista.addFirst(0);
+		lista.addFirst(2);
+		lista.addFirst(1);
 
+		System.out.println(lista);
+		System.out.println(lista.getPosFirst(1));
+	}
 
 }
