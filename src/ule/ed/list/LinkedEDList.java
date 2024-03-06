@@ -26,28 +26,134 @@ public class LinkedEDList<T> implements IEDList<T> {
 	// @SuppressWarnings("hiding")
 	private class LinkedListIterator<T> implements Iterator<T> {
 		// declarar atributos del iterador
+		Node<T> nodo;
 
 		public LinkedListIterator(Node<T> aux) {
-			// TODO
+			this.nodo = aux;
 		}
 
 		@Override
 		public boolean hasNext() {
-			// TODO
-
-			return false;
+			return nodo != null;
 		}
 
 		@Override
 		public T next() {
-			// TODO
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("no hay siguiente elemento");
+			}
 
-			return null;
+			T elem = nodo.elem;
+			nodo = nodo.next;
+			return elem;
 
 		}
 	}
 
 	/// TODO : AÑADIR OTRAS CLASES PARA LOS OTROS ITERADORES
+
+	private class OddIterator<T> implements Iterator<T> {
+		Node<T> nodo;
+
+		OddIterator(Node<T> aux) {
+			this.nodo = aux;
+		}
+
+		@Override
+		public boolean hasNext() {
+
+			return this.nodo != null;
+		}
+
+		@Override
+		public T next() {
+
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("no hay siguiente");
+			}
+
+			T elem = nodo.elem;
+			nodo = nodo.next;
+
+			if (nodo == null) {
+				return elem;
+			}
+
+			nodo = nodo.next;
+			return elem;
+
+		}
+
+	}
+
+	private class EvenIterator<T> implements Iterator<T> {
+
+		Node<T> nodo;
+
+		EvenIterator(Node<T> aux) {
+
+			if (aux != null) {
+				this.nodo = aux.next;
+			} else {
+				this.nodo = aux;
+			}
+		}
+
+		@Override
+		public boolean hasNext() {
+
+			return this.nodo != null;
+		}
+
+		@Override
+		public T next() {
+
+			if (!this.hasNext()) {
+				throw new NoSuchElementException("no hay siguiente");
+			}
+
+			T elem = nodo.elem;
+			nodo = nodo.next;
+
+			if (nodo == null) {
+				return elem;
+			}
+
+			nodo = nodo.next;
+			return elem;
+
+		}
+
+	}
+
+	private class OddEvenIterator<T> implements Iterator<T> {
+
+		Iterator par, impar;
+
+		OddEvenIterator(Node<T> aux) {
+
+			this.impar = new OddIterator<>(aux);
+			this.par = new EvenIterator<>(aux);
+		}
+
+		@Override
+		public boolean hasNext() {
+			return impar.hasNext() || par.hasNext();
+		}
+
+		@Override
+		public T next() {
+			if(!this.hasNext()){
+				throw new NoSuchElementException("no hay mas elementos");
+			}
+
+			if(!impar.hasNext()){
+				return (T) par.next();
+			}
+			return (T) impar.next();
+		}
+
+	}
 
 	// FIN ITERADORES
 
@@ -223,19 +329,19 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 	@Override
 	public int removeAll(T elem) throws EmptyCollectionException {
-		if(elem.equals(null)){
+		if (elem.equals(null)) {
 			throw new NullPointerException("el elemento no puede ser nulo");
 		}
-		if(this.size()==0){
+		if (this.size() == 0) {
 			throw new EmptyCollectionException("la lista esta vacia");
 		}
 
-		int n=this.countElem(elem);
+		int n = this.countElem(elem);
 
-		if(n==0){
+		if (n == 0) {
 			throw new NoSuchElementException("el elemento no esta en la lista");
 		}
-		for(int i =0; i<n; i++){
+		for (int i = 0; i < n; i++) {
 			this.removeElem(elem);
 		}
 
@@ -379,19 +485,38 @@ public class LinkedEDList<T> implements IEDList<T> {
 	@Override
 	public Iterator<T> evenPositionsIterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return new EvenIterator<T>(this.front);
 	}
 
 	@Override
 	public Iterator<T> oddPositionsIterator() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return new OddIterator<T>(this.front);
 	}
 
 	@Override
 	public Iterator<T> OddEvenIterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return new OddEvenIterator<T>(front);
+	}
+
+	public static void main(String[] args) {
+		LinkedEDList<Integer> lista = new LinkedEDList<Integer>();
+
+		lista.addFirst(5);
+		lista.addFirst(4);
+		lista.addFirst(3);
+		lista.addFirst(2);
+		lista.addFirst(1);
+		lista.addLast(6);
+
+		System.out.println(lista);
+
+		Iterator iter = lista.OddEvenIterator();
+
+		while (iter.hasNext()) {
+			System.out.println(iter.next());
+		}
 	}
 
 }
