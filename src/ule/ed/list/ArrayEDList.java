@@ -100,21 +100,23 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	private class ArrayEDOddEvenIterator<T> implements Iterator<T> {
 
-		private int current = 0;
-		private T[] items;
-		private int count;
+		
 
-		private Boolean cambio = false;
+		Iterator par, impar;
 
 		ArrayEDOddEvenIterator(T[] coleccion, int size) {
-			this.count = size;
-			this.items = coleccion;
+			
+
+			this.par = new ArrayEDListEvenIterator<>(coleccion, size);
+			this.impar = new ArrayEDListOddIterator<>(coleccion, size);
 		}
 
 		@Override
 		public boolean hasNext() {
 
-			return this.current < this.count;
+			
+
+			return par.hasNext() || impar.hasNext();
 		}
 
 		@Override
@@ -124,15 +126,12 @@ public class ArrayEDList<T> implements IEDList<T> {
 				throw new NoSuchElementException("No hay siguiente");
 			}
 
-			this.current += 2;
-			T temp = this.items[current - 2];
-
-			if (!hasNext() && !cambio) {
-				cambio = true;
-				this.current = 1;
+			if (!impar.hasNext()) {
+				return (T) par.next();
 			}
+			return (T) impar.next();
 
-			return temp;
+			// return temp;
 		}
 
 	}
@@ -183,18 +182,30 @@ public class ArrayEDList<T> implements IEDList<T> {
 	// ---------------ADDS-----------------------------------
 	@Override
 	public void addFirst(T elem) throws NullPointerException {
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
 		this.addPos(elem, 1);
 	}
 
 	@Override
 	public void addLast(T elem) {
-		this.addPos(elem, this.count);
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
+
+		
+			this.addPos(elem, this.count+1);
+		
 	}
 
 	@Override
 	public void addPenult(T elem) {
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
 		if (this.isEmpty()) {
-			this.addPos(elem, this.count);
+			this.addPos(elem, 1);
 		} else {
 
 			this.addPos(elem, this.count - 1);
@@ -214,15 +225,14 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 			this.extendList();
 		}
-		System.out.println(this.count);
+
 
 		for (int i = this.count; i >= position; i--) {
-			
-			System.out.println(this.data[i]+"->"+this.data[i-1]);
-			this.data[i] = this.data[i-1];
+
+			this.data[i] = this.data[i - 1];
 		}
 
-		this.data[position-1] = elem;
+		this.data[position - 1] = elem;
 		this.count++;
 	}
 
@@ -349,10 +359,9 @@ public class ArrayEDList<T> implements IEDList<T> {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder("(");
-		
 
 		for (int i = 0; i < this.count; i++) {
-			
+
 			str.append(this.data[i].toString() + " ");
 		}
 
@@ -422,13 +431,6 @@ public class ArrayEDList<T> implements IEDList<T> {
 		return new ArrayEDOddEvenIterator<>(this.data, this.size());
 	}
 
-	public static void main(String[] args) {
-		IEDList<String> hola = new ArrayEDList<String>();
-
-		hola.addFirst("2");
-		hola.addFirst("1");
-		System.out.println(hola.toString());
-
-	}
+	
 
 }
