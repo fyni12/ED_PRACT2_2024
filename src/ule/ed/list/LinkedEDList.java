@@ -222,6 +222,28 @@ public class LinkedEDList<T> implements IEDList<T> {
 	}
 
 	@Override
+	public int removeAll(T elem) throws EmptyCollectionException {
+		if(elem.equals(null)){
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
+		if(this.size()==0){
+			throw new EmptyCollectionException("la lista esta vacia");
+		}
+
+		int n=this.countElem(elem);
+
+		if(n==0){
+			throw new NoSuchElementException("el elemento no esta en la lista");
+		}
+		for(int i =0; i<n; i++){
+			this.removeElem(elem);
+		}
+
+		return n;
+
+	}
+
+	@Override
 	public T getElemPos(int position) {
 		if (position < 1 || position > this.size()) {
 			throw new IllegalArgumentException("el arg no es valido");
@@ -242,38 +264,41 @@ public class LinkedEDList<T> implements IEDList<T> {
 		}
 
 		Node<T> nodo = this.front;
-		int n = 1;
 
-		// while (nodo.next != null && nodo.elem != elem) {
-		// 	nodo = nodo.next;
-		// 	n++;
-		// }
-
-		for(int i=1; i<=this.size();i++){
-			if(nodo.elem==elem)
-			{
+		for (int i = 1; i <= this.size(); i++) {
+			if (nodo.elem.equals(elem)) {
 				return i;
 			}
-			nodo=nodo.next;
+			nodo = nodo.next;
 		}
 
-		
 		throw new NoSuchElementException("el elemento no esta en la lista");
-		
 
 	}
 
 	@Override
 	public int getPosLast(T elem) {
-		// TODO
-		return 0;
-	}
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
+		boolean encontrado = false;
 
-	@Override
-	public int removeAll(T elem) throws EmptyCollectionException {
-		// TODO
-		return 0;
+		Node<T> nodo = this.front;
+		int n = 1;
 
+		for (int i = 1; i <= this.size(); i++) {
+			if (nodo.elem.equals(elem)) {
+				n = i;
+				encontrado = true;
+			}
+			nodo = nodo.next;
+		}
+
+		if (!encontrado) {
+			throw new NoSuchElementException("el elemento no esta en la lista");
+		}
+
+		return n;
 	}
 
 	@Override
@@ -282,41 +307,73 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 		Node<T> current = this.front;
 
-		do {
+		if (current != null) {
 
-			str.append(current.elem.toString() + " ");
+			do {
 
-			current = current.next;
+				str.append(current.elem.toString() + " ");
 
-		} while (current != null);
+				current = current.next;
 
+			} while (current != null);
+		}
 		str.append(")");
 
 		return str.toString();
 	}
 
 	@Override
-	public Iterator<T> iterator() {
-		// TODO
-		return new LinkedListIterator<T>(front);
+	public int countElem(T elem) {
+		if (elem == null) {
+			throw new NullPointerException("el elemento no puede ser nulo");
+		}
+		Node<T> nodo = this.front;
+		int n = 0;
+
+		if (nodo == null) {
+			return 0;
+		}
+
+		while (nodo != null) {
+
+			if (elem.equals(nodo.elem)) {
+				n++;
+			}
+			nodo = nodo.next;
+		}
+
+		return n;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		this.front = null;
 
 	}
 
 	@Override
 	public IEDList<T> listOfRepeatedElems() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedEDList<T> resultado = new LinkedEDList<T>();
+		Node<T> nodo = this.front;
+
+		while (nodo.next != null) {
+			System.out.println(resultado);
+			System.out.println(nodo.elem + "->" + this.countElem(nodo.elem) + " : " + resultado.countElem(nodo.elem));
+
+			if (this.countElem(nodo.elem) > 1 && resultado.countElem(nodo.elem) == 0) {
+
+				resultado.addLast(nodo.elem);
+			}
+			nodo = nodo.next;
+		}
+
+		return resultado;
 	}
 
 	@Override
-	public int countElem(T elem) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Iterator<T> iterator() {
+		// TODO
+		return new LinkedListIterator<T>(front);
 	}
 
 	@Override
@@ -335,16 +392,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 	public Iterator<T> OddEvenIterator() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public static void main(String[] args) {
-		LinkedEDList<Integer> lista = new LinkedEDList<Integer>();
-		lista.addFirst(0);
-		lista.addFirst(2);
-		lista.addFirst(1);
-
-		System.out.println(lista);
-		System.out.println(lista.getPosFirst(1));
 	}
 
 }
