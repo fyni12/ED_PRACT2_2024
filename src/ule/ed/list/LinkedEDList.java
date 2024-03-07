@@ -1,5 +1,7 @@
 package ule.ed.list;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -75,9 +77,9 @@ public class LinkedEDList<T> implements IEDList<T> {
 			T elem = nodo.elem;
 			nodo = nodo.next;
 
-			if (nodo == null) {
-				return elem;
-			}
+			// if (nodo == null) {
+			// return elem;
+			// }
 
 			nodo = nodo.next;
 			return elem;
@@ -143,11 +145,11 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 		@Override
 		public T next() {
-			if(!this.hasNext()){
+			if (!this.hasNext()) {
 				throw new NoSuchElementException("no hay mas elementos");
 			}
 
-			if(!impar.hasNext()){
+			if (!impar.hasNext()) {
 				return (T) par.next();
 			}
 			return (T) impar.next();
@@ -284,6 +286,11 @@ public class LinkedEDList<T> implements IEDList<T> {
 		Node<T> prenodo = this.front;
 		Node<T> nodo = this.front.next;
 
+		if (nodo.next == null) {
+			return this.removeFirst();
+
+		}
+
 		while (nodo.next.next != null) {
 			nodo = nodo.next;
 			prenodo = prenodo.next;
@@ -329,7 +336,7 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 	@Override
 	public int removeAll(T elem) throws EmptyCollectionException {
-		if (elem.equals(null)) {
+		if (elem == null) {
 			throw new NullPointerException("el elemento no puede ser nulo");
 		}
 		if (this.size() == 0) {
@@ -462,9 +469,7 @@ public class LinkedEDList<T> implements IEDList<T> {
 		LinkedEDList<T> resultado = new LinkedEDList<T>();
 		Node<T> nodo = this.front;
 
-		while (nodo.next != null) {
-			System.out.println(resultado);
-			System.out.println(nodo.elem + "->" + this.countElem(nodo.elem) + " : " + resultado.countElem(nodo.elem));
+		while (nodo != null) {
 
 			if (this.countElem(nodo.elem) > 1 && resultado.countElem(nodo.elem) == 0) {
 
@@ -484,7 +489,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 	@Override
 	public Iterator<T> evenPositionsIterator() {
-		// TODO Auto-generated method stub
 		return new EvenIterator<T>(this.front);
 	}
 
@@ -496,27 +500,8 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 	@Override
 	public Iterator<T> OddEvenIterator() {
-		// TODO Auto-generated method stub
+
 		return new OddEvenIterator<T>(front);
-	}
-
-	public static void main(String[] args) {
-		LinkedEDList<Integer> lista = new LinkedEDList<Integer>();
-
-		lista.addFirst(5);
-		lista.addFirst(4);
-		lista.addFirst(3);
-		lista.addFirst(2);
-		lista.addFirst(1);
-		lista.addLast(6);
-
-		System.out.println(lista);
-
-		Iterator iter = lista.OddEvenIterator();
-
-		while (iter.hasNext()) {
-			System.out.println(iter.next());
-		}
 	}
 
 }
