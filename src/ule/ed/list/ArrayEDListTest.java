@@ -7,21 +7,20 @@ import java.util.NoSuchElementException;
 
 import org.junit.*;
 
-
 public class ArrayEDListTest {
 	private ArrayEDList<String> listaString;
 	private ArrayEDList<Integer> listaNumeros;
-	
+
 	@Before
 	public void setUp() {
-		 listaString= new ArrayEDList<String>();
-		 listaNumeros= new ArrayEDList<Integer>();
+		listaString = new ArrayEDList<String>();
+		listaNumeros = new ArrayEDList<Integer>();
 	}
-	
+
 	@Test
 	public void ArrayAddFirstExpandCapacityTest() {
-		listaString=new ArrayEDList<String>(3);
-		
+		listaString = new ArrayEDList<String>(3);
+
 		listaString.addFirst("2");
 		Assert.assertFalse(listaString.isEmpty());
 		Assert.assertEquals("(2 )", listaString.toString());
@@ -30,19 +29,20 @@ public class ArrayEDListTest {
 		listaString.addFirst("7");
 		Assert.assertEquals("(7 3 2 )", listaString.toString());
 		listaString.addFirst("10");
-		Assert.assertEquals("(10 7 3 2 )", listaString.toString());		
+		Assert.assertEquals("(10 7 3 2 )", listaString.toString());
 	}
-	
+
 	@Test
 	public void ArrayVaciaTest() {
-		assertEquals(0,listaString.size());
+		assertEquals(0, listaString.size());
 	}
+
 	// ---------------------------ADDERS----------------------
-	@Test(expected=NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void ArrayAddFirstElementoNuloTest() {
-			listaString.addFirst(null);
+		listaString.addFirst(null);
 	}
-	
+
 	@Test
 	public void ArrayAddFirstTest() {
 		listaString.addFirst("2");
@@ -54,13 +54,13 @@ public class ArrayEDListTest {
 		Assert.assertEquals("(7 3 2 )", listaString.toString());
 	}
 
-	@Test(expected=NullPointerException.class)
-	public void AddLastErrorNull(){
+	@Test(expected = NullPointerException.class)
+	public void AddLastErrorNull() {
 		listaString.addLast(null);
 	}
 
 	@Test
-	public void AddLast(){
+	public void AddLast() {
 		listaNumeros.addLast(1);
 		assertEquals("(1 )", listaNumeros.toString());
 		listaNumeros.addLast(2);
@@ -68,12 +68,12 @@ public class ArrayEDListTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void addPenultErrorNull(){
+	public void addPenultErrorNull() {
 		listaNumeros.addPenult(null);
 	}
 
 	@Test
-	public void addPenult(){
+	public void addPenult() {
 		listaNumeros.addPenult(2);
 		assertEquals("(2 )", listaNumeros.toString());
 		listaNumeros.addPenult(1);
@@ -83,25 +83,25 @@ public class ArrayEDListTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void addPosErrorNull(){
+	public void addPosErrorNull() {
 		listaString.addPos(null, 1);
 	}
+
 	@Test(expected = IllegalArgumentException.class)
-	public void addPosErrorIllegal(){
+	public void addPosErrorIllegal() {
 
 		listaString.addPos("null", 0);
 	}
 
-	//------------------Removes----------------
+	// ------------------Removes----------------
 
 	@Test(expected = EmptyCollectionException.class)
-	public void removeFirstErrorEmpty() throws EmptyCollectionException
-	{
+	public void removeFirstErrorEmpty() throws EmptyCollectionException {
 		listaString.removeFirst();
 	}
+
 	@Test
-	public void removeFirst() throws EmptyCollectionException
-	{
+	public void removeFirst() throws EmptyCollectionException {
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 
@@ -109,37 +109,31 @@ public class ArrayEDListTest {
 	}
 
 	@Test(expected = EmptyCollectionException.class)
-	public void removeLastErrorEmpty() throws EmptyCollectionException
-	{
+	public void removeLastErrorEmpty() throws EmptyCollectionException {
 		listaString.removelast();
 	}
+
 	@Test
-	public void removelast() throws EmptyCollectionException
-	{
+	public void removelast() throws EmptyCollectionException {
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 
 		assertEquals("2", listaString.removelast());
 	}
 
-
-
 	@Test(expected = EmptyCollectionException.class)
-	public void removePenultErrorEmpty() throws EmptyCollectionException
-	{
+	public void removePenultErrorEmpty() throws EmptyCollectionException {
 		listaString.removePenult();
 	}
-	
+
 	@Test(expected = NoSuchElementException.class)
-	public void removePenultErrorSuchElement() throws EmptyCollectionException
-	{
+	public void removePenultErrorSuchElement() throws EmptyCollectionException {
 		listaString.addFirst("null");
 		listaString.removePenult();
 	}
 
 	@Test
-	public void removePenult() throws EmptyCollectionException
-	{
+	public void removePenult() throws EmptyCollectionException {
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 
@@ -147,94 +141,89 @@ public class ArrayEDListTest {
 	}
 
 	@Test(expected = EmptyCollectionException.class)
-	public void removeElemErrorEmpty() throws EmptyCollectionException
-	{
+	public void removeElemErrorEmpty() throws EmptyCollectionException {
 		listaString.removeElem("a");
 	}
-	
+
 	@Test(expected = NoSuchElementException.class)
-	public void removeElemErrorSuchElement() throws EmptyCollectionException
-	{
+	public void removeElemErrorSuchElement() throws EmptyCollectionException {
 		listaString.addFirst("null");
 		listaString.removeElem("");
 	}
 
 	@Test
-	public void removeElem() throws EmptyCollectionException
-	{
+	public void removeElem() throws EmptyCollectionException {
 		listaString.addFirst("1");
 		listaString.addFirst("3");
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 		assertEquals("(1 2 3 1 )", listaString.toString());
 		assertEquals(1, listaString.removeElem("1"));
-		assertEquals(3	, listaString.removeElem("1"));
+		assertEquals(3, listaString.removeElem("1"));
 	}
 
 	@Test(expected = EmptyCollectionException.class)
-	public void removeAllErrorEmpty() throws EmptyCollectionException
-	{
+	public void removeAllErrorEmpty() throws EmptyCollectionException {
 		listaString.removeAll("a");
 	}
-	
+
 	@Test(expected = NoSuchElementException.class)
-	public void removeAllErrorSuchElement() throws EmptyCollectionException
-	{
+	public void removeAllErrorSuchElement() throws EmptyCollectionException {
 		listaString.addFirst("null");
 		listaString.removeAll("");
 	}
-	
+
 	@Test(expected = NullPointerException.class)
 
-	public void removeAllErrorNull() throws EmptyCollectionException
-	{
+	public void removeAllErrorNull() throws EmptyCollectionException {
 		listaString.addFirst("null");
 		listaString.removeAll(null);
 	}
 
 	@Test
-	public void removeAll() throws EmptyCollectionException
-	{
+	public void removeAll() throws EmptyCollectionException {
 		listaString.addFirst("1");
 		listaString.addFirst("3");
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 		assertEquals("(1 2 3 1 )", listaString.toString());
 		assertEquals(2, listaString.removeAll("1"));
-		assertEquals("(2 3 )"	, listaString.toString());
+		assertEquals("(2 3 )", listaString.toString());
 	}
 
-	//------------GetPos--------------------------
+	// ------------GetPos--------------------------
 
-	@Test(expected =IllegalArgumentException.class)
-	public void getElementPosErrorIllegalLow(){
+	@Test(expected = IllegalArgumentException.class)
+	public void getElementPosErrorIllegalLow() {
 		listaNumeros.getElemPos(-11);
 	}
-	@Test(expected =IllegalArgumentException.class)
-	public void getElementPosErrorIllegalHigh(){
+
+	@Test(expected = IllegalArgumentException.class)
+	public void getElementPosErrorIllegalHigh() {
 		listaNumeros.getElemPos(11111);
 	}
+
 	@Test
-	public void getElement(){
+	public void getElement() {
 		listaString.addFirst("3");
 		listaString.addFirst("2");
 		listaString.addFirst("1");
 
-		assertEquals("1" , listaString.getElemPos(1));
+		assertEquals("1", listaString.getElemPos(1));
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void getPosFirstErrorNull(){
+	public void getPosFirstErrorNull() {
 		listaString.getPosFirst(null);
 	}
+
 	@Test(expected = NoSuchElementException.class)
-	public void getPosFirstErrorSuchElement(){
+	public void getPosFirstErrorSuchElement() {
 		listaString.getPosFirst("null");
 	}
 
 	@Test
-	public void getPosFirst() throws EmptyCollectionException{
-
+	public void getPosFirst() throws EmptyCollectionException {
 
 		listaString.addFirst("3");
 		listaString.addFirst("2");
@@ -244,21 +233,21 @@ public class ArrayEDListTest {
 		assertEquals(1, listaString.getPosFirst("3"));
 		listaString.removeFirst();
 		assertEquals(3, listaString.getPosFirst("3"));
-		
+
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void getPosLastErrorNull(){
+	public void getPosLastErrorNull() {
 		listaString.getPosLast(null);
 	}
+
 	@Test(expected = NoSuchElementException.class)
-	public void getPosLastErrorSuchElement(){
+	public void getPosLastErrorSuchElement() {
 		listaString.getPosLast("null");
 	}
 
 	@Test
-	public void getPosLast() throws EmptyCollectionException{
-
+	public void getPosLast() throws EmptyCollectionException {
 
 		listaString.addFirst("3");
 		listaString.addFirst("2");
@@ -267,16 +256,15 @@ public class ArrayEDListTest {
 
 		assertEquals(4, listaString.getPosLast("3"));
 		listaString.removelast();
-		
+
 		assertEquals(1, listaString.getPosLast("3"));
-		
+
 	}
 
-	//--------------------Extras----------------------------
-
+	// --------------------Extras----------------------------
 
 	@Test
-	public void clear(){
+	public void clear() {
 
 		listaString.addFirst("3");
 		listaString.addFirst("2");
@@ -289,9 +277,8 @@ public class ArrayEDListTest {
 
 	}
 
-
 	@Test
-	public void listOfRepeatedElems(){
+	public void listOfRepeatedElems() {
 		assertEquals("()", listaNumeros.listOfRepeatedElems().toString());
 		listaNumeros.addFirst(1);
 		listaNumeros.addFirst(1);
@@ -307,12 +294,13 @@ public class ArrayEDListTest {
 		assertEquals("(1 2 )", listaNumeros.listOfRepeatedElems().toString());
 	}
 
-	@Test(expected=NullPointerException.class)
-	public void countElemErrorNull(){
+	@Test(expected = NullPointerException.class)
+	public void countElemErrorNull() {
 		listaNumeros.countElem(null);
 	}
+
 	@Test
-	public void countElem(){
+	public void countElem() {
 		listaString.addFirst("1");
 		listaString.addFirst("1");
 		listaString.addFirst("1");
@@ -323,10 +311,7 @@ public class ArrayEDListTest {
 		assertEquals(4, listaString.countElem("1"));
 	}
 
-
-
-
-	//----------------Iteradores---------------------
+	// ----------------Iteradores---------------------
 	@Test
 	public void ArrayIteratorTest() {
 		listaString.addFirst("2");
@@ -336,7 +321,7 @@ public class ArrayEDListTest {
 		Assert.assertEquals("(3 2 )", listaString.toString());
 		listaString.addFirst("7");
 		Assert.assertEquals("(7 3 2 )", listaString.toString());
-		Iterator<String>  iter=listaString.iterator();
+		Iterator<String> iter = listaString.iterator();
 		assertTrue(iter.hasNext());
 		assertEquals("7", iter.next());
 		assertTrue(iter.hasNext());
@@ -345,7 +330,7 @@ public class ArrayEDListTest {
 		assertEquals("2", iter.next());
 		assertFalse(iter.hasNext());
 	}
-	
+
 	@Test
 	public void ArrayEvenIteratorNElemesParTest() {
 		listaString.addFirst("2");
@@ -358,7 +343,7 @@ public class ArrayEDListTest {
 		listaString.addFirst("8");
 		Assert.assertEquals("(8 7 3 2 )", listaString.toString());
 
-		Iterator<String>  iter=listaString.evenPositionsIterator();
+		Iterator<String> iter = listaString.evenPositionsIterator();
 		assertTrue(iter.hasNext());
 		assertEquals("7", iter.next());
 		assertTrue(iter.hasNext());
@@ -377,12 +362,17 @@ public class ArrayEDListTest {
 		Assert.assertEquals("(7 3 2 )", listaString.toString());
 		listaString.addFirst("8");
 		Assert.assertEquals("(8 7 3 2 )", listaString.toString());
+		listaString.addLast("4");
+		Assert.assertEquals("(8 7 3 2 4 )", listaString.toString());
+		listaString.addLast("3");
 
-		Iterator<String>  iter=listaString.oddPositionsIterator();
+		Iterator<String> iter = listaString.oddPositionsIterator();
 		assertTrue(iter.hasNext());
 		assertEquals("8", iter.next());
 		assertTrue(iter.hasNext());
 		assertEquals("3", iter.next());
+		assertTrue(iter.hasNext());
+		assertEquals("4", iter.next());
 		assertFalse(iter.hasNext());
 	}
 
@@ -398,7 +388,7 @@ public class ArrayEDListTest {
 		listaString.addFirst("8");
 		Assert.assertEquals("(8 7 3 2 )", listaString.toString());
 
-		Iterator<String>  iter=listaString.OddEvenIterator();
+		Iterator<String> iter = listaString.OddEvenIterator();
 		assertTrue(iter.hasNext());
 		assertEquals("8", iter.next());
 		assertTrue(iter.hasNext());
@@ -409,30 +399,26 @@ public class ArrayEDListTest {
 		assertEquals("2", iter.next());
 		assertFalse(iter.hasNext());
 	}
-	
-	
-	
-	
+
 	// TEST ITERADORES EN listaString VACÍA
-	@Test(expected=NoSuchElementException.class)
+	@Test(expected = NoSuchElementException.class)
 	public void ArrayNextListaVaciaTest() {
-			listaString.iterator().next();	
+		listaString.iterator().next();
 	}
-	@Test(expected=NoSuchElementException.class)
+
+	@Test(expected = NoSuchElementException.class)
 	public void ArrayEvenNextListaVaciaTest() {
-			listaString.evenPositionsIterator().next();	
+		listaString.evenPositionsIterator().next();
 	}
-	@Test(expected=NoSuchElementException.class)
+
+	@Test(expected = NoSuchElementException.class)
 	public void ArrayOddNextListaVaciaTest() {
-			listaString.oddPositionsIterator().next();	
+		listaString.oddPositionsIterator().next();
 	}
-	@Test(expected=NoSuchElementException.class)
+
+	@Test(expected = NoSuchElementException.class)
 	public void ArrayOddEvenNextListaVaciaTest() {
-			listaString.OddEvenIterator().next();	
+		listaString.OddEvenIterator().next();
 	}
-	
-	
-	
+
 }
-	
-	

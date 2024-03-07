@@ -100,12 +100,9 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 	private class ArrayEDOddEvenIterator<T> implements Iterator<T> {
 
-		
-
 		Iterator par, impar;
 
 		ArrayEDOddEvenIterator(T[] coleccion, int size) {
-			
 
 			this.par = new ArrayEDListEvenIterator<>(coleccion, size);
 			this.impar = new ArrayEDListOddIterator<>(coleccion, size);
@@ -113,8 +110,6 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 		@Override
 		public boolean hasNext() {
-
-			
 
 			return par.hasNext() || impar.hasNext();
 		}
@@ -194,9 +189,8 @@ public class ArrayEDList<T> implements IEDList<T> {
 			throw new NullPointerException("el elemento no puede ser nulo");
 		}
 
-		
-			this.addPos(elem, this.count+1);
-		
+		this.addPos(elem, this.count + 1);
+
 	}
 
 	@Override
@@ -225,7 +219,6 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 			this.extendList();
 		}
-
 
 		for (int i = this.count; i >= position; i--) {
 
@@ -430,7 +423,5 @@ public class ArrayEDList<T> implements IEDList<T> {
 
 		return new ArrayEDOddEvenIterator<>(this.data, this.size());
 	}
-
-	
 
 }
