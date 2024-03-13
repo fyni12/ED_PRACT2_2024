@@ -95,7 +95,7 @@ public class LinkedEDListTest {
 
 	@Test
 	public void addPosTest() {
-		listaNumeros.addFirst(7);
+		listaNumeros.addPos(7, 4);
 		listaNumeros.addFirst(6);
 		listaNumeros.addFirst(4);
 		listaNumeros.addFirst(3);
@@ -162,6 +162,12 @@ public class LinkedEDListTest {
 	@Test(expected = EmptyCollectionException.class)
 	public void removeElemErrorEmpty() throws EmptyCollectionException {
 		listaString.removeElem("a");
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void removeElemErrorNull() throws EmptyCollectionException {
+		listaString.addFirst("null");
+		listaString.removeElem(null);
 	}
 
 	@Test(expected = NoSuchElementException.class)

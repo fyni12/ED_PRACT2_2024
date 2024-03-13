@@ -1,4 +1,5 @@
 package ule.ed.list;
+
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
@@ -92,6 +93,20 @@ public class ArrayEDListTest {
 		listaString.addPos("null", 0);
 	}
 
+	@Test
+	public void addPosTest() {
+		listaNumeros.addPos(7, 4);
+		listaNumeros.addFirst(6);
+		listaNumeros.addFirst(4);
+		listaNumeros.addFirst(3);
+		listaNumeros.addFirst(2);
+		listaNumeros.addFirst(1);
+		listaNumeros.addPos(5, 5);
+
+		assertEquals("(1 2 3 4 5 6 7 )", listaNumeros.toString());
+
+	}
+
 	// ------------------Removes----------------
 
 	@Test(expected = EmptyCollectionException.class)
@@ -148,6 +163,12 @@ public class ArrayEDListTest {
 	public void removeElemErrorSuchElement() throws EmptyCollectionException {
 		listaString.addFirst("null");
 		listaString.removeElem("");
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void removeElemErrorNull() throws EmptyCollectionException {
+		listaString.addFirst("null");
+		listaString.removeElem(null);
 	}
 
 	@Test

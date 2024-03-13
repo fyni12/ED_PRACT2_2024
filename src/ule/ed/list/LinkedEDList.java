@@ -516,21 +516,6 @@ public class LinkedEDList<T> implements IEDList<T> {
 		return new OddEvenIterator<T>(front);
 	}
 
-	public static void main(String[] args) throws EmptyCollectionException {
-		LinkedEDList<Integer> lista=new LinkedEDList<Integer>();
 
-		lista.addPos(2, 1);
-		lista.addPos(4, 3);
-		lista.addPos(5, 3);
-		
-		System.out.println(lista);
-
-		Iterator iter= lista.OddEvenIterator();
-
-		while (iter.hasNext()) {
-			System.out.println(iter.next());
-			
-		}
-	}
 
 }
