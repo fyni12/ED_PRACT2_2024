@@ -1,7 +1,10 @@
 package ule.ed.list;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ArrayEDList<T> implements IEDList<T> {
 	static final int DEFAULT_CAPACITY = 10;
@@ -211,7 +214,7 @@ public class ArrayEDList<T> implements IEDList<T> {
 		if (elem == null) {
 			throw new NullPointerException("El elemento no puede ser nulo");
 		}
-		if (position <= 0) {
+		if (position <= 0 ) {
 			throw new IllegalArgumentException("la poscion no puede ser inferior a 1");
 		}
 
@@ -225,8 +228,14 @@ public class ArrayEDList<T> implements IEDList<T> {
 			this.data[i] = this.data[i - 1];
 		}
 
-		this.data[position - 1] = elem;
-		this.count++;
+		if(position>this.count+1){
+			this.addLast(elem);
+		}else{
+
+			this.data[position - 1] = elem;
+			this.count++;
+		}
+
 	}
 
 	// ---------------------------REMOVE-------------------
@@ -279,6 +288,9 @@ public class ArrayEDList<T> implements IEDList<T> {
 	public int removeElem(T elem) throws EmptyCollectionException {
 		if (this.isEmpty()) {
 			throw new EmptyCollectionException("la lista esta vacia");
+		}
+		if(elem==null){
+			throw new NullPointerException("El elemento no puede ser nulo");
 		}
 		for (int i = 0; i < this.count; i++) {
 			if (this.data[i].equals(elem)) {
@@ -363,6 +375,9 @@ public class ArrayEDList<T> implements IEDList<T> {
 		return str.toString();
 	}
 
+
+	
+
 	@Override
 	public void clear() {
 		for (int i = 0; i < count; i++) {
@@ -422,6 +437,21 @@ public class ArrayEDList<T> implements IEDList<T> {
 	public Iterator<T> OddEvenIterator() {
 
 		return new ArrayEDOddEvenIterator<>(this.data, this.size());
+	}
+
+	public static void main(String[] args) throws EmptyCollectionException {
+		ArrayEDList<Integer> lista=new ArrayEDList<Integer>();
+
+
+		for(int i=1; i<11; i++) lista.addLast(i);
+		System.out.println(lista);
+
+		Iterator iter= lista.OddEvenIterator();
+
+		while (iter.hasNext()) {
+			System.out.println(iter.next());
+			
+		}
 	}
 
 }

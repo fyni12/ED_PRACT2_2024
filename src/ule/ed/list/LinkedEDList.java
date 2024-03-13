@@ -1,5 +1,6 @@
 package ule.ed.list;
 
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.Iterator;
@@ -77,9 +78,9 @@ public class LinkedEDList<T> implements IEDList<T> {
 			T elem = nodo.elem;
 			nodo = nodo.next;
 
-			// if (nodo == null) {
-			// return elem;
-			// }
+			if (nodo == null) {
+			return elem;
+			}
 
 			nodo = nodo.next;
 			return elem;
@@ -221,7 +222,12 @@ public class LinkedEDList<T> implements IEDList<T> {
 
 		if (position == 1) {
 			this.addFirst(elem);
-		} else {
+		}
+		else if(position>this.size()+1){
+
+			this.addLast(elem);
+		}		
+		else {
 
 			Node<T> predecesor = this.front;
 			Node<T> siguiente = predecesor.next;
@@ -308,18 +314,24 @@ public class LinkedEDList<T> implements IEDList<T> {
 	@Override
 	public int removeElem(T elem) throws EmptyCollectionException {
 
+
+
 		if (this.isEmpty()) {
 			throw new EmptyCollectionException("La lista esta vacia");
 		}
 
-		if (this.front.elem == elem) {
+		if(elem==null){
+			throw new NullPointerException("El elemento no puede ser nulo");
+		}
+
+		if (this.front.elem.equals(elem)) {
 			this.removeFirst();
 			return 1;
 		} else {
 			Node<T> prenodo = this.front;
 			Node<T> nodo = this.front.next;
 			int n = 2;
-			while (nodo != null && nodo.elem != elem) {
+			while (nodo != null && !nodo.elem.equals(elem)) {
 				nodo = nodo.next;
 				prenodo = prenodo.next;
 				n++;
@@ -502,6 +514,23 @@ public class LinkedEDList<T> implements IEDList<T> {
 	public Iterator<T> OddEvenIterator() {
 
 		return new OddEvenIterator<T>(front);
+	}
+
+	public static void main(String[] args) throws EmptyCollectionException {
+		LinkedEDList<Integer> lista=new LinkedEDList<Integer>();
+
+		lista.addPos(2, 1);
+		lista.addPos(4, 3);
+		lista.addPos(5, 3);
+		
+		System.out.println(lista);
+
+		Iterator iter= lista.OddEvenIterator();
+
+		while (iter.hasNext()) {
+			System.out.println(iter.next());
+			
+		}
 	}
 
 }

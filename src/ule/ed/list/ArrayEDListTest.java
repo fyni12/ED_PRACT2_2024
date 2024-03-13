@@ -1,5 +1,4 @@
 package ule.ed.list;
-
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
