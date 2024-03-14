@@ -441,4 +441,13 @@ public class LinkedEDListTest {
 		listaString.OddEvenIterator().next();
 	}
 
+	@Test
+	public void OddEvenOneElem(){
+		listaString.addFirst("1");
+		Iterator iter=listaString.OddEvenIterator();
+		assertTrue(iter.hasNext());
+		assertEquals("1", iter.next());
+		assertFalse(iter.hasNext());
+	}
+
 }
